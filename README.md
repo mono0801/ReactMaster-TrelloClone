@@ -1,3 +1,8 @@
+npx create-react-app [myApp] --template typescript\
+npm i --save-dev @types/styled-components\
+npm i styled-components\
+npm i recoil
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

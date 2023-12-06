@@ -1,37 +1,115 @@
 import React, { HTMLInputTypeAttribute } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { hourSelector, minuteState } from "./atom";
 
 function App() {
-    const [minutes, setMinutes] = useRecoilState(minuteState);
-    // hours는 selcetor의 get을 return 값을 받아온다
-    // setHours는 selector의 set을 부르는 함수가 된다
-    const [hours, setHours] = useRecoilState(hourSelector);
-
-    const onMinutesChange = (event: React.FormEvent<HTMLInputElement>) => {
-        //문자열 앞에 +를 붙이면 숫자로 바뀐다
-        setMinutes(+event.currentTarget.value);
-    };
-    const onHoursChange = (event: React.FormEvent<HTMLInputElement>) => {
-        //문자열 앞에 +를 붙이면 숫자로 바뀐다
-        setHours(+event.currentTarget.value);
-    };
-
+    const onDragEnd = () => {};
     return (
-        <div>
-            <input
-                value={minutes}
-                onChange={onMinutesChange}
-                type="number"
-                placeholder="Minutes"
-            />
-            <input
-                value={hours}
-                onChange={onHoursChange}
-                type="number"
-                placeholder="Hours"
-            />
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+            <div>
+                {/* <Droppable>과 <Draggable>의 child에는 함수가 들어가야한다 */}
+                <Droppable droppableId="one">
+                    {(imsi) => (
+                        <ul
+                            style={{
+                                width: "max-content",
+                                flex: "50%",
+                                marginBottom: 10,
+                            }}
+                            ref={imsi.innerRef}
+                            {...imsi.droppableProps}
+                        >
+                            <Draggable draggableId="first" index={0}>
+                                {(magic) => (
+                                    <li
+                                        ref={magic.innerRef}
+                                        {...magic.draggableProps}
+                                    >
+                                        <span
+                                            style={{
+                                                fontSize: "400%",
+                                            }}
+                                            {...magic.dragHandleProps}
+                                        >
+                                            💥
+                                        </span>
+                                        one
+                                    </li>
+                                )}
+                            </Draggable>
+                            <Draggable draggableId="Second" index={1}>
+                                {(magic) => (
+                                    <li
+                                        ref={magic.innerRef}
+                                        {...magic.draggableProps}
+                                        {...magic.dragHandleProps}
+                                    >
+                                        <span
+                                            style={{
+                                                fontSize: "400%",
+                                            }}
+                                        >
+                                            Two
+                                        </span>
+                                    </li>
+                                )}
+                            </Draggable>
+                            <Draggable draggableId="Third" index={2}>
+                                {(temp) => (
+                                    <li
+                                        ref={temp.innerRef}
+                                        {...temp.draggableProps}
+                                        {...temp.dragHandleProps}
+                                    >
+                                        <div
+                                            style={{
+                                                width: "150px",
+                                                height: "150px",
+                                                backgroundColor: "wheat",
+                                            }}
+                                        ></div>
+                                    </li>
+                                )}
+                            </Draggable>
+                            <Draggable draggableId="Forth" index={3}>
+                                {(temp) => (
+                                    <li
+                                        ref={temp.innerRef}
+                                        {...temp.draggableProps}
+                                        {...temp.dragHandleProps}
+                                    >
+                                        <div
+                                            style={{
+                                                width: "150px",
+                                                height: "150px",
+                                                backgroundColor: "teal",
+                                            }}
+                                        ></div>
+                                    </li>
+                                )}
+                            </Draggable>
+                            <Draggable draggableId="Fifth" index={4}>
+                                {(temp) => (
+                                    <li
+                                        ref={temp.innerRef}
+                                        {...temp.draggableProps}
+                                        {...temp.dragHandleProps}
+                                    >
+                                        <div
+                                            style={{
+                                                width: "150px",
+                                                height: "150px",
+                                                backgroundColor: "tomato",
+                                            }}
+                                        ></div>
+                                    </li>
+                                )}
+                            </Draggable>
+                        </ul>
+                    )}
+                </Droppable>
+            </div>
+        </DragDropContext>
     );
 }
 

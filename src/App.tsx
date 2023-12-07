@@ -6,9 +6,8 @@ import { toDoState } from "./atom";
 import Board from "./Components/Board";
 
 const Wrapper = styled.div`
-    max-width: 680px;
-    width: 100%;
     height: 100vh;
+    width: 100vw;
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -16,26 +15,55 @@ const Wrapper = styled.div`
 `;
 
 const Boards = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     width: 100%;
-    min-height: 200px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 `;
 
 function App() {
     const [toDos, setToDos] = useRecoilState(toDoState);
 
-    const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-        if (!destination) return;
-        // setToDos((oldToDos) => {
-        //     const toDosCopy = [...oldToDos];
+    const onDragEnd = (info: DropResult) => {
+        console.log(info);
+        const { destination, draggableId, source } = info;
 
-        //     toDosCopy.splice(source.index, 1);
-        //     toDosCopy.splice(destination?.index, 0, draggableId);
-        //     console.log(toDosCopy);
-        //     return toDosCopy;
-        // });
+        // 변경하지 않을 경우
+        if (!destination) return;
+        // 같은 리스트 내에서 Drag가 일어날 경우
+        else if (destination?.droppableId === source.droppableId) {
+            setToDos((allBoards) => {
+                const baoardCopy = [...allBoards[source.droppableId]];
+
+                baoardCopy.splice(source.index, 1);
+                baoardCopy.splice(destination?.index, 0, draggableId);
+
+                return {
+                    // 기존 리스트에 변경된 리스트를 붙임
+                    ...allBoards,
+                    [destination.droppableId]: baoardCopy,
+                };
+            });
+        }
+        // 다른 리스트끼리 Drag가 일어날 경우
+        if (destination?.droppableId !== source.droppableId) {
+            setToDos((allBoards) => {
+                const sourceBoard = [...allBoards[source.droppableId]];
+                const destinationBoard = [
+                    ...allBoards[destination.droppableId],
+                ];
+
+                sourceBoard.splice(source.index, 1);
+                destinationBoard.splice(destination?.index, 0, draggableId);
+
+                return {
+                    ...allBoards,
+                    [source.droppableId]: sourceBoard,
+                    [destination.droppableId]: destinationBoard,
+                };
+            });
+        }
     };
 
     return (

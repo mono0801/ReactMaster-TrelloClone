@@ -2,7 +2,7 @@ npx create-react-app [myApp] --template typescript\
 npm i --save-dev @types/styled-components\
 npm i styled-components\
 npm i recoil\
-npm react-beautiful-dnd (Drag & Drop)\
+npm react-beautiful-dnd : (Drag & Drop)\
 npm i --save-dev @types/react-beautiful-dnd
 
 # Getting Started with Create React App

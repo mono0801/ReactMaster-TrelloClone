@@ -3,11 +3,19 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 
-const Card = styled.div`
+interface ICardProps {
+    isDragging: boolean;
+}
+
+const Card = styled.div<ICardProps>`
     padding: 10px 10px;
     margin-bottom: 5px;
     border-radius: 5px;
-    background-color: ${(props) => props.theme.cardColor};
+    background-color: ${(props) =>
+        props.isDragging ? "#bcffff" : props.theme.cardColor};
+    box-shadow: ${(props) =>
+        props.isDragging ? "0px 2px 10px rgba(0, 0, 0, 0.5)" : "none"};
+    transition: background-color 0.2s ease-in-out;
 `;
 
 interface IDraggableCardProps {
@@ -23,11 +31,12 @@ function DraggableCard({ toDo, index }: IDraggableCardProps) {
             draggableId={toDo}
             index={index}
         >
-            {(magic) => (
+            {(provided, snapshot) => (
                 <Card
-                    ref={magic.innerRef}
-                    {...magic.draggableProps}
-                    {...magic.dragHandleProps}
+                    isDragging={snapshot.isDragging}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
                 >
                     {toDo}
                 </Card>

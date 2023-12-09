@@ -1,4 +1,6 @@
-# NomadCoder - React Master Class : Trello Clone
+# NomadCoder - React Master Class
+
+## Trello Clone
 
 npx create-react-app [myApp] --template typescript\
 npm i --save-dev @types/styled-components\

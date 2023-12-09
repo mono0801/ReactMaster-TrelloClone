@@ -1,9 +1,12 @@
+# NomadCoder - React Master Class : Trello Clone
+
 npx create-react-app [myApp] --template typescript\
 npm i --save-dev @types/styled-components\
 npm i styled-components\
 npm i recoil\
 npm react-beautiful-dnd : (Drag & Drop)\
-npm i --save-dev @types/react-beautiful-dnd
+npm i --save-dev @types/react-beautiful-dnd\
+npm i react-hook-form
 
 # Getting Started with Create React App
 

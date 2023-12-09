@@ -24,9 +24,7 @@ const Boards = styled.div`
 
 function App() {
     const [toDos, setToDos] = useRecoilState(toDoState);
-
     const onDragEnd = (info: DropResult) => {
-        console.log(info);
         const { destination, draggableId, source } = info;
 
         // 변경하지 않을 경우
@@ -34,15 +32,16 @@ function App() {
         // 같은 리스트 내에서 Drag가 일어날 경우
         else if (destination?.droppableId === source.droppableId) {
             setToDos((allBoards) => {
-                const baoardCopy = [...allBoards[source.droppableId]];
+                const boardCopy = [...allBoards[source.droppableId]];
+                const taskObj = boardCopy[source.index];
 
-                baoardCopy.splice(source.index, 1);
-                baoardCopy.splice(destination?.index, 0, draggableId);
+                boardCopy.splice(source.index, 1);
+                boardCopy.splice(destination?.index, 0, taskObj);
 
                 return {
                     // 기존 리스트에 변경된 리스트를 붙임
                     ...allBoards,
-                    [destination.droppableId]: baoardCopy,
+                    [destination.droppableId]: boardCopy,
                 };
             });
         }
@@ -50,12 +49,13 @@ function App() {
         if (destination?.droppableId !== source.droppableId) {
             setToDos((allBoards) => {
                 const sourceBoard = [...allBoards[source.droppableId]];
+                const taskObj = sourceBoard[source.index];
                 const destinationBoard = [
                     ...allBoards[destination.droppableId],
                 ];
 
                 sourceBoard.splice(source.index, 1);
-                destinationBoard.splice(destination?.index, 0, draggableId);
+                destinationBoard.splice(destination?.index, 0, taskObj);
 
                 return {
                     ...allBoards,
